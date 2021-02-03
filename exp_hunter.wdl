@@ -5,10 +5,10 @@ workflow ExpansionHunter {
     String sample_id
     File bam_file
     File reference_fasta
-    File variant_catalog_file
+    String variant_catalog_file
     String expansion_hunter_docker
 
-    File repeats_file
+    String repeats_file
   }
 
   parameter_meta {
