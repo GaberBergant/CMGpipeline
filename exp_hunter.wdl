@@ -57,7 +57,7 @@ task RunExpansionHunter {
     File bam_file
     File bai_file
     File reference_fasta
-    String variant_catalog_file
+    File variant_catalog_file
     String expansion_hunter_docker
   }
 
@@ -89,7 +89,7 @@ task RunExpansionHunter {
 task AnnotateExpansionHunter {
   input {
     String sample_id
-    String repeats_file
+    File repeats_file
     String expansion_hunter_docker
     File expansion_hunter_vcf
   }
