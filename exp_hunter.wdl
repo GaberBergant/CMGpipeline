@@ -12,11 +12,13 @@ workflow ExpansionHunter {
   }
 
   parameter_meta {
-    sample_id: "sample name. Outputs will be sample_name + '.vcf'"
-    bam_file: ".bam file to search for repeat expansions."
+    sample_id: "sample name"
+    bam_file: ".bam file to search for repeat expansions"
     reference_fasta: ".fasta file with reference used to align bam file"
     variant_catalog_file: "JSON array whose entries specify individual loci that the program will analyze"
     expansion_hunter_docker: "expansion hunter docker including annotation software"
+
+    repeats_file: "Repats file used for annotation with 'stranger'"
   }
 
   meta {
