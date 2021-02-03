@@ -44,7 +44,13 @@ workflow ExpansionHunter {
         sample_id = sample_id,
         repeats_file = repeats_file,
         expansion_hunter_docker = expansion_hunter_docker
+        expansion_hunter_vcf = RunExpansionHunter.expansion_hunter_vcf
     }
+
+  output {
+    File? expansion_hunter_vcf_annotated = AnnotateExpansionHunter.expansion_hunter_vcf_annotated
+  }
+
 }
 
 task RunExpansionHunter {
@@ -54,6 +60,10 @@ task RunExpansionHunter {
     File reference_fasta
     String variant_catalog_file
     String expansion_hunter_docker
+  }
+
+  output {
+    File expansion_hunter_vcf = "~{sample_id}.vcf"
   }
 
   command <<<
@@ -82,18 +92,23 @@ task AnnotateExpansionHunter {
     String sample_id
     String repeats_file
     String expansion_hunter_docker
+    String expansion_hunter_vcf
   }
-
+  
+  output {
+    File expansion_hunter_vcf_annotated = "~{sample_id}.annotated.vcf"
+  }
+  
   command <<<
 
     export LC_ALL=C.UTF-8
     export LANG=C.UTF-8
-    annotated_vcf = "${sample_id}.annotated.vcf"
+    # annotated_vcf = "${sample_id}.annotated.vcf"
 
     echo "[ RUNNING ] expansion hunter vcf annotation on sample ~{sample_id}"
     stranger \
       --repeats-file "~{repeats_file}" \
-      "~{sample_id}.vcf" > $annotated_vcf
+      "~{expansion_hunter_vcf}" > "~{expansion_hunter_vcf_annotated}"
 
   >>>
 
