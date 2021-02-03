@@ -25,10 +25,6 @@ workflow ExpansionHunter {
       author: "Gaber Bergant and Aleš Maver"
       email: "cmg.kimg@kclj.si"
   }
-
-  # File variant_catalog_file = select_first([variant_catalog_file, "/repeat-specs/hg19/variant_catalog.json"])
-  # File expansion_hunter_docker = select_first([expansion_hunter_docker, "gbergant/expansionhunter:latest"])
-  # File repeats_file = select_first([repeats_file, "/stranger/stranger/resources/variant_catalog_hg19.json"])
   
   call RunExpansionHunter {
       input:
@@ -43,7 +39,7 @@ workflow ExpansionHunter {
       input:
         sample_id = sample_id,
         repeats_file = repeats_file,
-        expansion_hunter_docker = expansion_hunter_docker
+        expansion_hunter_docker = expansion_hunter_docker,
         expansion_hunter_vcf = RunExpansionHunter.expansion_hunter_vcf
     }
 
