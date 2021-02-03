@@ -82,6 +82,7 @@ task AnnotateExpansionHunter {
   input {
     String sample_id
     File repeats_file
+    String expansion_hunter_docker
   }
 
   output {
@@ -96,7 +97,7 @@ task AnnotateExpansionHunter {
     echo "[ RUNNING ] expansion hunter vcf annotation on sample ~{sample_id}"
     stranger \
       --repeats-file "~{variant_catalog_file}" \
-      "~{sample_id}.vcf > annotated_vcf"
+      "~{sample_id}.vcf" > $annotated_vcf
 
   >>>
   runtime {
