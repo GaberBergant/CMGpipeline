@@ -56,9 +56,6 @@ task RunExpansionHunter {
     String expansion_hunter_docker
   }
 
-  output {
-    File vcf = "${sample_id}.vcf"
-  }
   command <<<
 
     echo "[ RUNNING ] expansion hunter on sample ~{sample_id}"
@@ -69,6 +66,7 @@ task RunExpansionHunter {
       --output-prefix "~{sample_id}"
 
   >>>
+  
   runtime {
     docker: expansion_hunter_docker
     maxRetries: 3
@@ -86,9 +84,6 @@ task AnnotateExpansionHunter {
     String expansion_hunter_docker
   }
 
-  output {
-    File annotated_vcf = "${sample_id}.annotated.vcf"
-  }
   command <<<
 
     export LC_ALL=C.UTF-8
@@ -101,6 +96,7 @@ task AnnotateExpansionHunter {
       "~{sample_id}.vcf" > $annotated_vcf
 
   >>>
+
   runtime {
     docker: expansion_hunter_docker
     maxRetries: 3
