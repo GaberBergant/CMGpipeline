@@ -42,7 +42,8 @@ workflow ExpansionHunter {
   call AnnotateExpansionHunter {
       input:
         sample_id = sample_id,
-        repeats_file = repeats_file
+        repeats_file = repeats_file,
+        expansion_hunter_docker = expansion_hunter_docker
     }
 }
 
@@ -96,7 +97,7 @@ task AnnotateExpansionHunter {
 
     echo "[ RUNNING ] expansion hunter vcf annotation on sample ~{sample_id}"
     stranger \
-      --repeats-file "~{variant_catalog_file}" \
+      --repeats-file "~{repeats_file}" \
       "~{sample_id}.vcf" > $annotated_vcf
 
   >>>
