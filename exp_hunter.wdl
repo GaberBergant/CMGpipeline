@@ -5,10 +5,10 @@ workflow ExpansionHunter {
     String sample_id
     File bam_file
     File reference_fasta
-    File ?variant_catalog_file
-    String ?expansion_hunter_docker
+    File variant_catalog_file
+    String expansion_hunter_docker
 
-    File ?repeats_file
+    File repeats_file
   }
 
   parameter_meta {
@@ -16,7 +16,7 @@ workflow ExpansionHunter {
     bam_file: ".bam file to search for repeat expansions."
     reference_fasta: ".fasta file with reference used to align bam file"
     variant_catalog_file: "JSON array whose entries specify individual loci that the program will analyze"
-    expansion_hunter_docker: "[optional] array of event types for Delly to search for. Defaults to ['DEL', 'DUP', 'INV']."
+    expansion_hunter_docker: "expansion hunter docker including annotation software"
   }
 
   meta {
@@ -24,10 +24,10 @@ workflow ExpansionHunter {
       email: "cmg.kimg@kclj.si"
   }
 
-  File variant_catalog_file = select_first([variant_catalog_file, "/repeat-specs/hg19/variant_catalog.json"])
-  File expansion_hunter_docker = select_first([expansion_hunter_docker, "gbergant/expansionhunter:latest"])
-  File repeats_file = select_first([repeats_file, "/stranger/stranger/resources/variant_catalog_hg19.json"])
-
+  # File variant_catalog_file = select_first([variant_catalog_file, "/repeat-specs/hg19/variant_catalog.json"])
+  # File expansion_hunter_docker = select_first([expansion_hunter_docker, "gbergant/expansionhunter:latest"])
+  # File repeats_file = select_first([repeats_file, "/stranger/stranger/resources/variant_catalog_hg19.json"])
+  
   call RunExpansionHunter {
       input:
         sample_id = sample_id,
@@ -39,7 +39,8 @@ workflow ExpansionHunter {
 
   call AnnotateExpansionHunter {
       input:
-        sample_id = sample_id
+        sample_id = sample_id,
+        repeats_file = repeats_file
     }
 }
 
