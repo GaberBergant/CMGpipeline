@@ -66,10 +66,10 @@ task RunExpansionHunter {
 
     echo "[ RUNNING ] expansion hunter on sample ~{sample_id}"
     ExpansionHunter \
-      --reads "~{bam_file}" \
-      --reference "~{reference_fasta}" \
-      --variant-catalog "~{variant_catalog_file}" \
-      --output-prefix "~{sample_id}"
+      --reads ~{bam_file} \
+      --reference ~{reference_fasta} \
+      --variant-catalog ~{variant_catalog_file} \
+      --output-prefix ~{sample_id}
 
   >>>
   
@@ -78,7 +78,7 @@ task RunExpansionHunter {
     maxRetries: 3
     requested_memory_mb_per_core: 1000
     cpu: 1
-    runtime_minutes: 10
+    runtime_minutes: 30
   }
 
 }
@@ -88,7 +88,7 @@ task AnnotateExpansionHunter {
     String sample_id
     String repeats_file
     String expansion_hunter_docker
-    String expansion_hunter_vcf
+    File expansion_hunter_vcf
   }
   
   output {
@@ -103,8 +103,8 @@ task AnnotateExpansionHunter {
 
     echo "[ RUNNING ] expansion hunter vcf annotation on sample ~{sample_id}"
     stranger \
-      --repeats-file "~{repeats_file}" \
-      "~{expansion_hunter_vcf}" > "~{expansion_hunter_vcf_annotated}"
+      --repeats-file ~{repeats_file} \
+      ~{expansion_hunter_vcf} > ~{sample_id}.annotated.vcf
 
   >>>
 
@@ -113,7 +113,7 @@ task AnnotateExpansionHunter {
     maxRetries: 3
     requested_memory_mb_per_core: 1000
     cpu: 1
-    runtime_minutes: 10
+    runtime_minutes: 30
   }
 
 }
