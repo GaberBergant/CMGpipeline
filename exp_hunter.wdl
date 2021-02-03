@@ -4,6 +4,7 @@ workflow ExpansionHunter {
   input {
     String sample_id
     File bam_file
+    File bai_file
     File reference_fasta
     String variant_catalog_file
     String expansion_hunter_docker
@@ -30,6 +31,7 @@ workflow ExpansionHunter {
       input:
         sample_id = sample_id,
         bam_file = bam_file,
+        bai_file = bai_file,
         reference_fasta = reference_fasta,
         variant_catalog_file = variant_catalog_file,
         expansion_hunter_docker = expansion_hunter_docker
@@ -53,6 +55,7 @@ task RunExpansionHunter {
   input {
     String sample_id
     File bam_file
+    File bai_file
     File reference_fasta
     String variant_catalog_file
     String expansion_hunter_docker
@@ -75,7 +78,7 @@ task RunExpansionHunter {
   
   runtime {
     docker: expansion_hunter_docker
-    maxRetries: 3
+    maxRetries: 1
     requested_memory_mb_per_core: 1000
     cpu: 1
     runtime_minutes: 30
@@ -110,7 +113,7 @@ task AnnotateExpansionHunter {
 
   runtime {
     docker: expansion_hunter_docker
-    maxRetries: 3
+    maxRetries: 1
     requested_memory_mb_per_core: 1000
     cpu: 1
     runtime_minutes: 30
