@@ -57,6 +57,7 @@ task RunExpansionHunter {
 
     echo "[ RUNNING ] expansion hunter denovo on sample ~{sample_id}"
     ls /usr/bin/ | grep "Expa"
+    cat /proc/self/cgroup | head -1 | tr --delete ‘10:memory:/docker/’
     ExpansionHunterDenovo profile \
         --reads ~{bam_file} \
         --reference ~{reference_fasta} \
