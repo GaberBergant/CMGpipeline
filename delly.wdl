@@ -57,7 +57,7 @@ task RunDelly {
   command <<<
 
     echo "[ RUNNING ] delly on sample ~{sample_id}"
-    cat /proc/self/cgroup | head -1 | tr --delete ‘10:memory:/docker/’
+    # cat /proc/self/cgroup | head -1 | tr --delete ‘10:memory:/docker/’
     delly call -x ~{excl_file} -o ~{sample_id}.bcf -g ~{reference_fasta} ~{bam_file}
 
   >>>
