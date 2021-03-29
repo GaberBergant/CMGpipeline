@@ -1,0 +1,6 @@
+{
+    "final_workflow_outputs_dir": "/home/ales/CENTRAL/ARCHIVE/ExpHunter/VCFs/",
+    "use_relative_output_paths": true,
+    "final_workflow_log_dir": "/home/ales/wf_logs/",
+    "final_call_logs_dir": "/home/ales/call_logs/"
+}
