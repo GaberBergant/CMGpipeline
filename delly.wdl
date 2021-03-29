@@ -35,7 +35,7 @@ workflow Delly {
     }
 
   output {
-    File? delly.bcf = RunDelly.delly_bcf
+    File? delly_bcf = RunDelly.delly_bcf
   }
 
 }
