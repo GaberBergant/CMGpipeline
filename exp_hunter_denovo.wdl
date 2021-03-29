@@ -55,8 +55,9 @@ task RunExpansionHunter {
 
   command <<<
 
-    echo "[ RUNNING ] expansion hunter denovo on sample ~{sample_id}"      
-     ExpansionHunterDenovo profile \
+    echo "[ RUNNING ] expansion hunter denovo on sample ~{sample_id}"
+    ls /usr/bin/ | grep "Expa"
+    ExpansionHunterDenovo profile \
         --reads ~{bam_file} \
         --reference ~{reference_fasta} \
         --output-prefix ~{sample_id} \
