@@ -8,6 +8,8 @@ workflow Delly {
     File excl_file
     File reference_fasta
     String delly_docker
+    
+    Directory delly_results = "/home/ales/CENTRAL/ARCHIVE/DELLY/ORIGINAL_BCF/"
   }
 
   parameter_meta {
@@ -17,6 +19,7 @@ workflow Delly {
     excl_file: "bed file including excluded regions for delly analysis"
     reference_fasta: ".fasta file with reference used to align bam file"
     delly_docker: "delly docker"
+    delly_results: "Path to directory with delly bcfs"
   }
 
   meta {
@@ -31,7 +34,8 @@ workflow Delly {
         bai_file = bai_file,
         excl_file = excl_file,
         reference_fasta = reference_fasta,
-        delly_docker = delly_docker
+        delly_docker = delly_docker,
+        delly_results = delly_results
     }
 
   output {
@@ -48,6 +52,8 @@ task RunDelly {
     File excl_file
     File reference_fasta
     String delly_docker
+    
+    Directory delly_results
   }
 
   output {
@@ -57,8 +63,19 @@ task RunDelly {
   command <<<
 
     echo "[ RUNNING ] delly on sample ~{sample_id}"
-    # cat /proc/self/cgroup | head -1 | tr --delete ‘10:memory:/docker/’
-    delly call -x ~{excl_file} -o ~{sample_id}.bcf -g ~{reference_fasta} ~{bam_file}
+    echo "delly call -x ~{excl_file} -o ~{sample_id}.bcf -g ~{reference_fasta} ~{bam_file}"
+    
+    echo "[ RUNNING ] merge N samples"
+    echo "delly merge -o sites.bcf"
+    
+    echo "[ RUNNING ] genotyping merged SV site list across all samples"
+    echo "delly call -g hg19.fa -v sites.bcf -o s1.geno.bcf -x hg19.excl s1.bam"
+    
+    echo "[ RUNNING ] merge N genotyped samples"
+    echo "bcftools merge -m id -O b -o merged.bcf s1.geno.bcf s2.geno.bcf ... sN.geno.bcf"
+    
+    echo "[ RUNNING ] apply the germline SV filter if over 20 samples"
+    echo "delly filter -f germline -o germline.bcf merged.bcf"
 
   >>>
   
