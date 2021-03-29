@@ -45,7 +45,7 @@ task RunDelly {
     String sample_id
     File bam_file
     File bai_file
-    File = excl_file
+    File excl_file
     File reference_fasta
     String delly_docker
   }
