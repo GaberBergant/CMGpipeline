@@ -1,7 +1,11 @@
-from tqdm import tqdm
-import pandas as pd
-import gzip
 import re
+import sys
+import gzip
+import pandas as pd
+from tqdm import tqdm
+
+sys.version_info
+# sys.version_info(major=3, minor=6, micro=5, releaselevel='final', serial=0)
 
 def get_vcf_names(vcf_path):
     with gzip.open(vcf_path, "rt") as ifile:
@@ -68,10 +72,12 @@ def parse_info_ann_field(vcf_path, vcf_info):
 
 
 
+
+
+# Example usage
 vcfFilePath = '/path/to/annotated/vcf/patient.vcf.gz'
-vcf_names = get_vcf_names(vcfFilePath)
 
 # Limited to 1k rows for testing!
-vcf_df = pd.read_csv(vcfFilePath, nrows=1000, compression='gzip', comment='#', delim_whitespace=True, header=None, names=vcf_names)
+vcf_df = pd.read_csv(vcfFilePath, nrows=1000, compression='gzip', comment='#', delim_whitespace=True, header=None, names=get_vcf_names(vcfFilePath))
 vcf_info_df = parse_info_field(vcfFilePath)
 vcf_info_ann_list = parse_info_ann_field(vcfFilePath, vcf_info_df)
